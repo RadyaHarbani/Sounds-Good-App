@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class SearchPageController extends GetxController {
+class LibraryPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();

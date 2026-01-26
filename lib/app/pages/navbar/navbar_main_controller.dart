@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sounds_good_app/app/pages/home-page/home_page_view.dart';
+import 'package:sounds_good_app/app/pages/library-page/library_page_view.dart';
+import 'package:sounds_good_app/app/pages/search-page/search_page_view.dart';
 
 class NavbarMainController extends GetxController {
   var currentIndex = 0.obs;
@@ -15,9 +17,8 @@ class NavbarMainController extends GetxController {
 
   final List<Widget> pages = [
     HomePageView(),
-    HomeSavingPageView(),
-    // EventCalendarPageView(),
-    GalleryPageView(),
+    SearchPageView(),
+    LibraryPageView(),
   ];
 
   void selectedPage(int index) {

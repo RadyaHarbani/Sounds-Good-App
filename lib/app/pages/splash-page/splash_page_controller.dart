@@ -12,7 +12,7 @@ class SplashPageController extends GetxController {
       final token = box.get('userToken');
 
       if (token != null && token.toString().isNotEmpty) {
-        Get.offAllNamed(Routes.HOME_PAGE);
+        Get.offAllNamed(Routes.NAVBAR);
       } else {
         Get.offAllNamed(Routes.ONBOARDING_PAGE);
       }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sounds_good_app/app/pages/search-page/search_page_controller.dart';
+import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 
-class SearchPageView extends GetView<SearchPageController> {
-  const SearchPageView({super.key});
+class LibraryPageView extends GetView<LibraryPageController> {
+  const LibraryPageView({super.key});
 
   @override
   Widget build(BuildContext context) {

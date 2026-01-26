@@ -43,7 +43,7 @@ class LoginPageController extends GetxController {
 
       Get.snackbar("Login Success", "Welcome Back!");
       print("User Token: ${box.get('userToken')}");
-      Get.offAllNamed(Routes.HOME_PAGE);
+      Get.offAllNamed(Routes.NAVBAR);
     } catch (e) {
       isLoadingLogin(false);
       if (e.toString().contains('404')) {
