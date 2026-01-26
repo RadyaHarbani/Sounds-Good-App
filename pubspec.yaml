@@ -1,0 +1,39 @@
+name: sounds_good_app
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  hive:
+  hive_flutter:
+  dio:
+  flutter:
+    sdk: flutter
+  loading_animation_widget:
+  shimmer:
+  flutter_svg:
+  flutter_launcher_icons:
+  get:
+  google_fonts:
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icApplicationLogo.png"
+  adaptive_icon_foreground: "assets/icons/icApplicationLogo.png"
+  adaptive_icon_background: "#1C1F28"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/images/
