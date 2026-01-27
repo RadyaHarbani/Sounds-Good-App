@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as path;
 import 'package:sounds_good_app/app/api/api_endpoints.dart';
 import 'package:sounds_good_app/app/api/data/music/create_music_request.dart';
 import 'package:sounds_good_app/app/api/data/music/update_music_request.dart';
@@ -27,8 +29,16 @@ class MusicService {
     final formData = FormData.fromMap({
       'title': req.title,
       'artist': req.artist,
-      'song': await MultipartFile.fromFile(req.songPath),
-      'thumbnail': await MultipartFile.fromFile(req.thumbnailPath),
+      'song': await MultipartFile.fromFile(
+        req.songPath,
+        filename: path.basename(req.songPath),
+        contentType: MediaType('audio', 'mpeg'),
+      ),
+      'thumbnail': await MultipartFile.fromFile(
+        req.thumbnailPath,
+        filename: path.basename(req.thumbnailPath),
+        contentType: MediaType('image', 'jpeg'),
+      ),
     });
 
     final res = await _dioInstance.postRequest(

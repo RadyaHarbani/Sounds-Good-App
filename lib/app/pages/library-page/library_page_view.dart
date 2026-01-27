@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sounds_good_app/app/global/global-components/common_warning.dart';
+import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
+import 'package:sounds_good_app/app/pages/library-page/widgets/bottomsheet_add_music.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 
-class LibraryPageView extends GetView<LibraryPageController> {
-  const LibraryPageView({super.key});
+class LibraryPageView extends StatelessWidget {
+  final LibraryPageController controller = Get.find<LibraryPageController>();
+  final AudioController audioController = Get.find<AudioController>();
+
+  LibraryPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,149 +21,179 @@ class LibraryPageView extends GetView<LibraryPageController> {
     final double height = mediaQuery.height;
     return Scaffold(
       backgroundColor: backgroundColor,
-      //   backgroundColor: backgroundColor,
-      //   body: SingleChildScrollView(
-      //     child: SafeArea(
-      //       child: Padding(
-      //         padding: EdgeInsets.only(
-      //           top: height * 0.03,
-      //           left: width * 0.05,
-      //           right: width * 0.05,
-      //         ),
-      //         child: Form(
-      //           key: controller.formKey,
-      //           child: Column(
-      //             children: [
-      //               Row(
-      //                 crossAxisAlignment: CrossAxisAlignment.center,
-      //                 children: [
-      //                   SvgPicture.asset(
-      //                     'assets/icons/icLogoFunEducation.svg',
-      //                     width: width * 0.08,
-      //                   ),
-      //                   SizedBox(width: width * 0.01),
-      //                   AutoSizeText(
-      //                     'Fun Education',
-      //                     group: AutoSizeGroup(),
-      //                     maxLines: 1,
-      //                     style: tsBodyLargeSemibold(primaryColor),
-      //                   ),
-      //                 ],
-      //               ),
-      //               SizedBox(height: height * 0.04),
-      //               Column(
-      //                 children: [
-      //                   SvgPicture.asset('assets/images/welcome_login_page.svg'),
-      //                   AutoSizeText.rich(
-      //                     group: AutoSizeGroup(),
-      //                     textAlign: TextAlign.center,
-      //                     TextSpan(
-      //                       text: 'Selamat Datang di\n',
-      //                       style: tsTitleMediumRegular(blackColor).copyWith(
-      //                         height: 1.3,
-      //                       ),
-      //                       children: [
-      //                         TextSpan(
-      //                           text: 'Fun Education',
-      //                           style: tsTitleMediumSemibold(blackColor),
-      //                         ),
-      //                       ],
-      //                     ),
-      //                     maxLines: 2,
-      //                   ),
-      //                 ],
-      //               ),
-      //               SizedBox(height: height * 0.06),
-      //               CommonWarning(
-      //                 backColor: warningColor,
-      //                 text:
-      //                     'Isi dengan kata sandi yang telah diberikan oleh guru',
-      //               ),
-      //               SizedBox(height: height * 0.03),
-      //               Column(
-      //                 children: [
-      //                   CommonTextField(
-      //                     fieldController: controller.emailController,
-      //                     obscureText: false,
-      //                     hintText: 'Masukkan Email',
-      //                     keyboardType: TextInputType.emailAddress,
-      //                     validator: (value) {
-      //                       if (value == null || value.isEmpty) {
-      //                         return 'Please enter an email address';
-      //                       }
-      //                       final emailRegex = RegExp(
-      //                           r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
-      //                           r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
-      //                           r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
-      //                           r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
-      //                           r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
-      //                           r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
-      //                           r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])');
-      //                       if (!emailRegex.hasMatch(value)) {
-      //                         return 'Please enter a valid email address';
-      //                       }
-      //                       return null;
-      //                     },
-      //                   ),
-      //                   SizedBox(height: height * 0.01),
-      //                   Obx(
-      //                     () => CommonTextField(
-      //                       fieldController: controller.passwordController,
-      //                       obscureText: controller.isObsecure.value,
-      //                       hintText: 'Masukkan Kata Sandi',
-      //                       keyboardType: TextInputType.name,
-      //                       suffixIcon: IconButton(
-      //                         onPressed: () {
-      //                           controller.isObsecure.value =
-      //                               !controller.isObsecure.value;
-      //                         },
-      //                         icon: Icon(
-      //                           controller.isObsecure.value
-      //                               ? Icons.visibility_off
-      //                               : Icons.visibility,
-      //                           size: 20,
-      //                           color: greyColor,
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ),
-      //                 ],
-      //               ),
-      //               Container(
-      //                 width: width,
-      //                 alignment: Alignment.centerRight,
-      //                 child: TextButton(
-      //                   onPressed: () {
-      //                     showModalBottomSheet(
-      //                       context: context,
-      //                       isScrollControlled: true,
-      //                       backgroundColor: whiteColor,
-      //                       builder: (context) =>
-      //                           BottomsheetAddEmailResetPassword(),
-      //                     );
-      //                   },
-      //                   child: AutoSizeText(
-      //                     'Lupa Kata Sandi?',
-      //                     style: tsBodySmallRegular(blackColor),
-      //                   ),
-      //                 ),
-      //               ),
-      //               SizedBox(height: height * 0.02),
-      //               Obx(() => CommonButton(
-      //                     isLoading: controller.isLoadingLogin.value,
-      //                     text: 'Masuk',
-      //                     backgroundColor: blackColor,
-      //                     textColor: whiteColor,
-      //                     onPressed: () {
-      //                       controller.login();
-      //                     },
-      //                   )),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
+
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(height * 0.06),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: backgroundColor,
+          surfaceTintColor: backgroundColor,
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          title: Padding(
+            padding: EdgeInsets.only(left: width * 0.026),
+            child: Text(
+              'YOUR LIBRARY',
+              style: tsTitleLargeBold(context, blackColor),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: width * 0.06),
+              child: IconButton(
+                icon: Icon(Icons.add, color: blackColor, size: 30),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: whiteColor,
+                    builder: (context) => BottomsheetAddMusic(),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(left: width * 0.06, right: width * 0.06),
+            child: Obx(
+              () => controller.userMusics.length == 0
+                  ? Center(
+                      child: Column(
+                        children: [
+                          SvgPicture.asset('assets/images/emptyLibrary.svg'),
+                          Text(
+                            'No music in your library.',
+                            style: tsBodyMediumRegular(context, greyColor),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SlidableAutoCloseBehavior(
+                      child: Column(
+                        children: [
+                          CommonWarning(
+                            backColor: warningColor.withValues(alpha: 0.1),
+                            text: "Slide left on a music to see options.",
+                          ),
+                          SizedBox(height: height * 0.02),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: controller.userMusics.length,
+
+                            itemBuilder: (context, index) {
+                              final music = controller.userMusics[index];
+
+                              return Slidable(
+                                key: ValueKey(music.id),
+                                endActionPane: ActionPane(
+                                  motion:
+                                      const StretchMotion(), // smooth & modern
+                                  extentRatio: 0.4, // lebar area menu
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (_) {
+                                        // controller.openEditMusic(music);
+                                      },
+                                      backgroundColor: orangeColor.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      foregroundColor: orangeColor,
+                                      icon: Icons.edit,
+                                      label: 'Edit',
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (_) {
+                                        // controller.confirmDeleteMusic(music);
+                                      },
+                                      backgroundColor: dangerColor.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      foregroundColor: dangerColor,
+                                      icon: Icons.delete,
+                                      label: 'Hapus',
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    audioController.setPlaylist(
+                                      controller.userMusics,
+                                      startIndex: index,
+                                    );
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                            child: Image.network(
+                                              music.thumbnailUrl,
+                                              width: width * 0.14,
+                                              height: height * 0.065,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (_, __, ___) =>
+                                                  Container(
+                                                    width: width * 0.14,
+                                                    height: height * 0.065,
+                                                    color: greyColor.withValues(
+                                                      alpha: 0.2,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.music_note,
+                                                      color: greyColor,
+                                                    ),
+                                                  ),
+                                            ),
+                                          ),
+                                          SizedBox(width: width * 0.04),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                music.title,
+                                                style: tsBodyMediumSemibold(
+                                                  context,
+                                                  blackColor,
+                                                ),
+                                              ),
+                                              Text(
+                                                music.artist,
+                                                style: tsBodySmallRegular(
+                                                  context,
+                                                  greyColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: height * 0.02),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

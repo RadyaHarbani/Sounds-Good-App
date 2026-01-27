@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sounds_good_app/app/global/global-components/full_player.dart';
+import 'package:sounds_good_app/app/global/global-components/music-player/full_player.dart';
 import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 

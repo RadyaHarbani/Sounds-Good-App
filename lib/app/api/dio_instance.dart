@@ -169,12 +169,18 @@ class DioInstance {
     _initializeInterceptors();
   }
 
-  Map<String, dynamic> _headers({required bool isAuthorize}) {
+  Map<String, dynamic> _headers({
+    required bool isAuthorize,
+    required bool isMultipart,
+  }) {
     final box = Hive.box('authBox');
     final token = box.get('userToken');
 
     return {
-      "Content-Type": "application/json",
+      if (isAuthorize && token != null && isMultipart == false)
+        "Content-Type": "application/json",
+      if (isAuthorize && token != null && isMultipart == true)
+        "Content-Type": "multipart/form-data",
       if (isAuthorize && token != null) "x-auth-token": "$token",
     };
   }
@@ -188,7 +194,9 @@ class DioInstance {
       return await _dio.get(
         endpoint,
         queryParameters: queryParameters,
-        options: Options(headers: _headers(isAuthorize: isAuthorize)),
+        options: Options(
+          headers: _headers(isAuthorize: isAuthorize, isMultipart: false),
+        ),
       );
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? e.message);
@@ -206,7 +214,9 @@ class DioInstance {
         endpoint,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: _headers(isAuthorize: isAuthorize)),
+        options: Options(
+          headers: _headers(isAuthorize: isAuthorize, isMultipart: true),
+        ),
       );
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? e.message);
@@ -224,7 +234,9 @@ class DioInstance {
         endpoint,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: _headers(isAuthorize: isAuthorize)),
+        options: Options(
+          headers: _headers(isAuthorize: isAuthorize, isMultipart: false),
+        ),
       );
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? e.message);
@@ -240,7 +252,9 @@ class DioInstance {
       return await _dio.delete(
         endpoint,
         queryParameters: queryParameters,
-        options: Options(headers: _headers(isAuthorize: isAuthorize)),
+        options: Options(
+          headers: _headers(isAuthorize: isAuthorize, isMultipart: false),
+        ),
       );
     } on DioException catch (e) {
       throw Exception(e.response?.data ?? e.message);

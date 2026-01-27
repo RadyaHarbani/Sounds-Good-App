@@ -29,7 +29,7 @@ class CommonWarning extends StatelessWidget {
         children: [
           Icon(
             Icons.info_outline_rounded,
-            color: whiteColor,
+            color: warningColor,
             size: width * 0.06,
           ),
           SizedBox(width: width * 0.025),
@@ -37,7 +37,7 @@ class CommonWarning extends StatelessWidget {
             child: Text(
               text,
               maxLines: 2,
-              style: tsBodySmallMedium(context, whiteColor),
+              style: tsBodyMediumRegular(context, warningColor),
             ),
           ),
         ],

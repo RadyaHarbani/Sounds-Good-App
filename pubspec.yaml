@@ -15,8 +15,12 @@ dependencies:
   dio:
   flutter:
     sdk: flutter
+  http_parser:
+  flutter_slidable:
+  path:
+  image_picker: ^1.1.2
+  file_picker: ^8.0.0+1
   loading_animation_widget:
-  cached_network_image:
   shimmer:
   flutter_svg:
   flutter_launcher_icons:

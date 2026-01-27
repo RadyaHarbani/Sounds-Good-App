@@ -14,9 +14,7 @@ const Color successColor = Color(0xFF0CD644);
 const Color blueColor = Color(0xFF2BC7FA);
 const Color dangerColor = Color(0xFFE13F3F);
 const Color greenColor = Color(0xFF69BE47);
-const Color goldColor = Color(0xFFF9C105);
-const Color silverColor = Color(0xFFD8D8D8);
-const Color bronzeColor = Color(0xFFC58D5B);
+const Color orangeColor = Colors.orange;
 
 /// RESPONSIVE SIZE
 double figmaFontsize(BuildContext context, double fontSize) {
