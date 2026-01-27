@@ -17,8 +17,6 @@ void main() async {
   await Hive.openBox<MusicModel>('musicBox');
   await Hive.openBox<MusicModel>('myMusicBox');
 
-  Get.put(AudioController(), permanent: true);
-
   runApp(
     GetMaterialApp(
       title: "Application",

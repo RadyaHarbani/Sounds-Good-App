@@ -56,14 +56,38 @@ class HomePageView extends StatelessWidget {
                 ),
               ),
 
+              SizedBox(height: height * 0.04),
+              Obx(() {
+                if (controller.user.value == null) {
+                  return SizedBox.shrink();
+                }
+                return Text(
+                  '${controller.user.value!.name}!',
+                  style: tsHeadingMediumBold(context, blackColor),
+                );
+              }),
+              Obx(() {
+                if (controller.user.value == null) {
+                  return SizedBox.shrink();
+                }
+                return Text(
+                  controller.user.value!.email,
+                  style: tsBodyMediumRegular(context, greyColor),
+                );
+              }),
+
               Spacer(),
-              CommonButton(
-                isLoading: false,
-                text: 'Logout',
-                icon: Icons.logout,
-                backgroundColor: dangerColor,
-                textColor: whiteColor,
-                onPressed: () {},
+              Obx(
+                () => CommonButton(
+                  isLoading: controller.isLoadingLogout.value,
+                  text: 'Logout',
+                  icon: Icons.logout,
+                  backgroundColor: dangerColor,
+                  textColor: whiteColor,
+                  onPressed: () {
+                    controller.logout();
+                  },
+                ),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/app/pages/home-page/home_page_controller.dart';
 import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 import 'package:sounds_good_app/app/pages/navbar/navbar_main_controller.dart';
@@ -7,6 +8,7 @@ import 'package:sounds_good_app/app/pages/search-page/search_page_controller.dar
 class NavbarMainBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put(AudioController(), permanent: true);
     Get.lazyPut<NavbarMainController>(
       () => NavbarMainController(),
       fenix: true,

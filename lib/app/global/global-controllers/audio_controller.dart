@@ -62,8 +62,6 @@ class AudioController extends GetxController {
   }
 
   Future<void> togglePlay() async {
-    if (isLoadingAudio.value) return;
-
     if (player.playing) {
       await player.pause();
     } else {
@@ -83,6 +81,7 @@ class AudioController extends GetxController {
 
   @override
   void onClose() {
+    player.stop();
     player.dispose();
     super.onClose();
   }
