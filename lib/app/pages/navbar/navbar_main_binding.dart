@@ -7,10 +7,19 @@ import 'package:sounds_good_app/app/pages/search-page/search_page_controller.dar
 class NavbarMainBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<NavbarMainController>(() => NavbarMainController(), fenix: true);
+    Get.lazyPut<NavbarMainController>(
+      () => NavbarMainController(),
+      fenix: true,
+    );
 
-    Get.lazyPut<LibraryPageController>(() => LibraryPageController());
-    Get.lazyPut<SearchPageController>(() => SearchPageController());
-    Get.lazyPut<HomePageController>(() => HomePageController());
+    Get.lazyPut<LibraryPageController>(
+      () => LibraryPageController(),
+      fenix: true,
+    );
+    Get.lazyPut<SearchPageController>(
+      () => SearchPageController(),
+      fenix: true,
+    );
+    Get.lazyPut<HomePageController>(() => HomePageController(), fenix: true);
   }
 }

@@ -8,12 +8,15 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  just_audio:
+  audio_session:
   hive:
   hive_flutter:
   dio:
   flutter:
     sdk: flutter
   loading_animation_widget:
+  cached_network_image:
   shimmer:
   flutter_svg:
   flutter_launcher_icons:
@@ -24,6 +27,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator:
+  build_runner:
 
 flutter_launcher_icons:
   android: true

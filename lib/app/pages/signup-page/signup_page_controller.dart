@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sounds_good_app/app/api/authentication/service/authentication_service.dart';
+import 'package:sounds_good_app/app/api/service/authentication/authentication_service.dart';
 import 'package:sounds_good_app/common/routes/app_pages.dart';
 
 class SignupPageController extends GetxController {
@@ -42,26 +43,30 @@ class SignupPageController extends GetxController {
           'password': passwordController.text,
         },
       );
-    } catch (e) {
-      isLoadingSignup(false);
-      if (e.toString().contains('400')) {
-        Get.snackbar("Signup Error", "Account already exists with this email.");
-      } else if (e.toString().contains('500')) {
-        Get.snackbar("Signup Error", "Server error. Please try again later.");
-      } else if (e.toString().contains('DioException')) {
-        Get.snackbar(
-          "Signup Error",
-          "Network error. Please check your connection.",
-        );
-      } else if (e.toString().contains('422')) {
-        Get.snackbar(
-          "Signup Error",
-          "Invalid input. Please check your email and password.",
-        );
-      } else {
-        Get.snackbar("Signup Error", "Signup failed. Please try again.");
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+
+      switch (statusCode) {
+        case 400:
+          Get.snackbar(
+            "Signup Error",
+            "Account already exists with this email",
+          );
+          break;
+        case 422:
+          Get.snackbar("Signup Error", "Invalid input. Please check your data");
+          break;
+        case 500:
+          Get.snackbar("Signup Error", "Server error. Please try again later");
+          break;
+        default:
+          Get.snackbar(
+            "Signup Error",
+            "Network error. Please check your connection",
+          );
       }
-      print(e);
+    } catch (e) {
+      Get.snackbar("Signup Error", "Something went wrong. Please try again");
     } finally {
       isLoadingSignup(false);
     }

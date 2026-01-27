@@ -10,6 +10,7 @@ class NavbarMainController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    
     if (Get.arguments != null) {
       currentIndex.value = Get.arguments;
     }

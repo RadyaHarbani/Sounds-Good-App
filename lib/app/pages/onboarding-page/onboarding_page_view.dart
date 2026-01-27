@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sounds_good_app/app/global-components/common_button.dart';
+import 'package:sounds_good_app/app/global/global-components/common_button.dart';
 import 'package:sounds_good_app/app/pages/onboarding-page/onboarding_page_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 import 'package:sounds_good_app/common/routes/app_pages.dart';

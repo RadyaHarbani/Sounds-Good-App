@@ -1,26 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:sounds_good_app/app/api/authentication/service/authentication_service.dart';
+import 'package:sounds_good_app/app/api/data/authentication/auth_repository.dart';
 import 'package:sounds_good_app/common/routes/app_pages.dart';
 
 class LoginPageController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late AuthenticationService authenticationService;
   RxBool isObsecure = true.obs;
   RxBool isLoadingLogin = false.obs;
+
+  final AuthRepository _authRepository = AuthRepository();
   @override
   void onInit() {
     super.onInit();
-    authenticationService = AuthenticationService();
-    emailController.text =
-        Get.arguments != null && Get.arguments['email'] != null
-        ? emailController.text = Get.arguments['email']
-        : '';
-    Get.arguments != null && Get.arguments['password'] != null
-        ? passwordController.text = Get.arguments['password']
-        : '';
+    if (Get.arguments != null) {
+      emailController.text = Get.arguments['email'] ?? '';
+      passwordController.text = Get.arguments['password'] ?? '';
+    }
   }
 
   @override
@@ -33,42 +30,34 @@ class LoginPageController extends GetxController {
   Future<void> login() async {
     try {
       isLoadingLogin(true);
-      final response = await authenticationService.login(
+      await _authRepository.login(
         emailController.text,
         passwordController.text,
       );
 
-      final box = Hive.box('authBox');
-      box.put('userToken', response.data['token']);
-
       Get.snackbar("Login Success", "Welcome Back!");
-      print("User Token: ${box.get('userToken')}");
       Get.offAllNamed(Routes.NAVBAR);
-    } catch (e) {
+    } on DioException catch (e) {
       isLoadingLogin(false);
-      if (e.toString().contains('404')) {
-        Get.snackbar("Login Error", "User not found. Please sign up.");
-      } else if (e.toString().contains('400')) {
-        Get.snackbar(
-          "Login Error",
-          "Invalid input. Please check your email and password.",
-        );
-      } else if (e.toString().contains('500')) {
-        Get.snackbar("Login Error", "Server error. Please try again later.");
-      } else if (e.toString().contains('DioException')) {
-        Get.snackbar(
-          "Login Error",
-          "Network error. Please check your connection.",
-        );
-      } else if (e.toString().contains('422')) {
-        Get.snackbar(
-          "Login Error",
-          "Invalid input. Please check your email and password.",
-        );
-      } else {
-        Get.snackbar("Login Error", "Invalid Username or Password");
+
+      final statusCode = e.response?.statusCode;
+
+      switch (statusCode) {
+        case 400:
+        case 422:
+          Get.snackbar("Login Error", "Invalid email or password");
+          break;
+        case 404:
+          Get.snackbar("Login Error", "User not found");
+          break;
+        case 500:
+          Get.snackbar("Login Error", "Server error");
+          break;
+        default:
+          Get.snackbar("Login Error", "Network error");
       }
-      print(e);
+    } catch (e) {
+      Get.snackbar("Login Error", "Something went wrong");
     } finally {
       isLoadingLogin(false);
     }
