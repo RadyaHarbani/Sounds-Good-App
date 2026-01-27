@@ -1,5 +1,6 @@
 class ApiEndpoints {
-  static String baseUrl = 'https://raion-battlepass-2026-production.up.railway.app';
+  static String baseUrl =
+      'https://raion-battlepass-2026-production.up.railway.app';
 
   //POST Requests
   static String loginUser = '$baseUrl/auth/login';
@@ -12,8 +13,8 @@ class ApiEndpoints {
   static String getUserSongs = '$baseUrl/songs/me';
 
   //PUT Requests
-  static String updateSong = '$baseUrl/songs/update/';
+  static String updateSong = '$baseUrl/songs/update';
 
   //DELETE Requests
-  static String deleteSong = '$baseUrl/songs/delete/';
+  static String deleteSong = '$baseUrl/songs/delete';
 }

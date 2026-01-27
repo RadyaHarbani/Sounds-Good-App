@@ -22,13 +22,12 @@ class MusicService {
       endpoint: ApiEndpoints.getUserSongs,
       isAuthorize: true,
     );
+    print("fetchMyMusic response: ${response.data}");
     return response.data;
   }
 
   Future<Map<String, dynamic>> createMusic(CreateMusicRequest req) async {
     final formData = FormData.fromMap({
-      'title': req.title,
-      'artist': req.artist,
       'song': await MultipartFile.fromFile(
         req.songPath,
         filename: path.basename(req.songPath),
@@ -39,6 +38,8 @@ class MusicService {
         filename: path.basename(req.thumbnailPath),
         contentType: MediaType('image', 'jpeg'),
       ),
+      'artist': req.artist,
+      'title': req.title,
     });
 
     final res = await _dioInstance.postRequest(
@@ -46,6 +47,8 @@ class MusicService {
       isAuthorize: true,
       data: formData,
     );
+
+    print("createMusic response: ${res.data}");
 
     return res.data;
   }

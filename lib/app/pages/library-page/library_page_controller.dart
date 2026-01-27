@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sounds_good_app/app/api/data/music/create_music_request.dart';
 import 'package:sounds_good_app/app/api/data/music/music_model.dart';
 import 'package:sounds_good_app/app/api/data/music/music_repository.dart';
+import 'package:sounds_good_app/app/api/data/music/update_music_request.dart';
 
 class LibraryPageController extends GetxController {
   final MusicRepository _musicRepo = MusicRepository();
@@ -15,8 +16,8 @@ class LibraryPageController extends GetxController {
   final isLoadingUserMusic = false.obs;
 
   final formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  final artistController = TextEditingController();
+  final titleUploadController = TextEditingController();
+  final artistUploadController = TextEditingController();
 
   final isUploading = false.obs;
 
@@ -25,10 +26,24 @@ class LibraryPageController extends GetxController {
 
   final ImagePicker _imagePicker = ImagePicker();
 
+  final titleUpdateController = TextEditingController();
+  final artistUpdateController = TextEditingController();
+
+  final isUpdating = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserMusic();
+  }
+
   @override
   void onClose() {
-    titleController.dispose();
-    artistController.dispose();
+    titleUploadController.dispose();
+    artistUploadController.dispose();
+
+    titleUpdateController.dispose();
+    artistUpdateController.dispose();
     super.onClose();
   }
 
@@ -48,37 +63,39 @@ class LibraryPageController extends GetxController {
         'Audio terlalu besar',
         'Ukuran ${sizeInMB.toStringAsFixed(2)} MB (maks 10 MB)',
       );
+    }
 
-      isUploading.value = true;
+    isUploading.value = true;
 
-      try {
-        final req = CreateMusicRequest(
-          title: titleController.text,
-          artist: artistController.text,
-          songPath: selectedAudio.value!.path,
-          thumbnailPath: selectedImage.value!.path,
-        );
+    try {
+      final req = CreateMusicRequest(
+        title: titleUploadController.text,
+        artist: artistUploadController.text,
+        songPath: selectedAudio.value!.path,
+        thumbnailPath: selectedImage.value!.path,
+      );
 
-        await _musicRepo.createMusic(req);
+      await _musicRepo.createMusic(req);
 
-        Get.back();
-        fetchUserMusic();
+      Get.back();
+      fetchUserMusic();
 
-        Get.snackbar('Success', 'Music berhasil ditambahkan');
-        clearForm();
-      } catch (e) {
-        print(e);
+      Get.snackbar('Success', 'Music berhasil ditambahkan');
+      clearForm();
+    } catch (e) {
+      print(e);
 
-        Get.snackbar('Error', 'Gagal upload music');
-      } finally {
-        isUploading.value = false;
-      }
+      Get.snackbar('Error', 'Gagal upload music');
+    } finally {
+      isUploading.value = false;
     }
   }
 
   void clearForm() {
-    titleController.clear();
-    artistController.clear();
+    titleUploadController.clear();
+    artistUploadController.clear();
+    titleUpdateController.clear();
+    artistUpdateController.clear();
     selectedImage.value = null;
     selectedAudio.value = null;
   }
@@ -114,6 +131,44 @@ class LibraryPageController extends GetxController {
     }
 
     selectedAudio.value = file;
+  }
+
+  Future<void> deleteUserMusic(String musicId) async {
+    try {
+      await _musicRepo.deleteMusic(musicId);
+      userMusics.removeWhere((music) => music.id == musicId);
+      fetchUserMusic();
+      Get.snackbar('Success', 'Music berhasil dihapus');
+      Get.back();
+    } catch (e) {
+      print(e);
+      Get.snackbar('Error', 'Gagal menghapus music');
+    }
+  }
+
+  Future<void> updateUserMusic(
+    String musicId,
+    String title,
+    String artist,
+  ) async {
+    isLoadingUserMusic.value = true;
+    try {
+      await _musicRepo.updateMusic(
+        musicId,
+        UpdateMusicRequest(title: title, artist: artist),
+      );
+      fetchUserMusic();
+      Get.back();
+      isLoadingUserMusic.value = false;
+      Get.snackbar('Success', 'Music berhasil diperbarui');
+      clearForm();
+    } catch (e) {
+      print(e);
+      isLoadingUserMusic.value = false;
+      Get.snackbar('Error', 'Gagal memperbarui music');
+    } finally {
+      isLoadingUserMusic.value = false;
+    }
   }
 
   Future<void> fetchUserMusic() async {

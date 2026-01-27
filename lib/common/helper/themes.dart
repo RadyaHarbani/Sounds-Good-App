@@ -11,9 +11,7 @@ const Color whiteColor = Color(0xFFFFFFFF);
 const Color warningColor = Color(0xFFFFBE30);
 const Color greyColor = Color(0xFF7B7B7B);
 const Color successColor = Color(0xFF0CD644);
-const Color blueColor = Color(0xFF2BC7FA);
 const Color dangerColor = Color(0xFFE13F3F);
-const Color greenColor = Color(0xFF69BE47);
 const Color orangeColor = Colors.orange;
 
 /// RESPONSIVE SIZE

@@ -180,7 +180,7 @@ class DioInstance {
       if (isAuthorize && token != null && isMultipart == false)
         "Content-Type": "application/json",
       if (isAuthorize && token != null && isMultipart == true)
-        "Content-Type": "multipart/form-data",
+        "Content-Type": Headers.multipartFormDataContentType,
       if (isAuthorize && token != null) "x-auth-token": "$token",
     };
   }

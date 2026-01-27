@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sounds_good_app/app/api/data/music/music_model.dart';
 import 'package:sounds_good_app/app/api/data/user/user_model.dart';
-import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/common/routes/app_pages.dart';
 
 void main() async {

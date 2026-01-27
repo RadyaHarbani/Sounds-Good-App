@@ -5,9 +5,17 @@ import 'package:sounds_good_app/app/global/global-components/common_text_field.d
 import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 
-class BottomsheetAddMusic extends StatelessWidget {
+class BottomsheetUpdateMusic extends StatelessWidget {
   final LibraryPageController controller = Get.find<LibraryPageController>();
-  BottomsheetAddMusic({super.key});
+  BottomsheetUpdateMusic({
+    super.key,
+    required this.musicId,
+    required this.title,
+    required this.artist,
+  });
+  final String musicId;
+  final String title;
+  final String artist;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,7 @@ class BottomsheetAddMusic extends StatelessWidget {
                     width: width * 0.013,
                     height: height * 0.05,
                     decoration: BoxDecoration(
-                      color: primaryColor,
+                      color: orangeColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -58,11 +66,11 @@ class BottomsheetAddMusic extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Add Music to Your Library',
+                        'Update Music',
                         style: tsTitleMediumBold(context, blackColor),
                       ),
                       Text(
-                        'Add your personal library.',
+                        'Update the details of your music.',
                         style: tsBodyMediumRegular(
                           context,
                           blackColor,
@@ -84,9 +92,9 @@ class BottomsheetAddMusic extends StatelessWidget {
                       style: tsBodyMediumSemibold(context, greyColor),
                     ),
                     CommonTextField(
-                      fieldController: controller.titleUploadController,
+                      fieldController: controller.titleUpdateController,
                       obscureText: false,
-                      hintText: 'Enter Title',
+                      hintText: '$title',
                       keyboardType: TextInputType.name,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -102,9 +110,9 @@ class BottomsheetAddMusic extends StatelessWidget {
                       style: tsBodyMediumSemibold(context, greyColor),
                     ),
                     CommonTextField(
-                      fieldController: controller.artistUploadController,
+                      fieldController: controller.artistUpdateController,
                       obscureText: false,
-                      hintText: 'Enter Artist',
+                      hintText: '$artist',
                       keyboardType: TextInputType.name,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -114,102 +122,23 @@ class BottomsheetAddMusic extends StatelessWidget {
                         return null;
                       },
                     ),
-                    SizedBox(height: height * 0.02),
-                    Text(
-                      'THUMBNAIL IMAGE',
-                      style: tsBodyMediumSemibold(context, greyColor),
-                    ),
-
-                    Obx(
-                      () => GestureDetector(
-                        onTap: controller.pickImage,
-                        child: Container(
-                          width: double.infinity,
-                          height: height * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-
-                            color: greyColor.withValues(alpha: 0.05),
-                          ),
-                          child: controller.selectedImage.value == null
-                              ? Center(
-                                  child: Text(
-                                    'Tap to select image',
-                                    style: tsBodyMediumRegular(
-                                      context,
-                                      greyColor.withValues(alpha: 0.5),
-                                    ),
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    controller.selectedImage.value!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: height * 0.02),
-
-                    Text(
-                      'AUDIO FILE (Max. 10MB)',
-                      style: tsBodyMediumSemibold(context, greyColor),
-                    ),
-
-                    Obx(
-                      () => GestureDetector(
-                        onTap: controller.pickAudio,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: greyColor.withValues(alpha: 0.05),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.music_note,
-                                color: greyColor.withValues(alpha: 0.5),
-                              ),
-                              SizedBox(width: width * 0.03),
-                              Expanded(
-                                child: Text(
-                                  controller.selectedAudio.value == null
-                                      ? 'Tap to select audio'
-                                      : controller.selectedAudio.value!.path
-                                            .split('/')
-                                            .last,
-                                  style: tsBodyMediumRegular(
-                                    context,
-                                    greyColor.withValues(alpha: 0.5),
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
 
-              SizedBox(height: height * 0.03),
+              SizedBox(height: height * 0.04),
               Obx(
                 () => CommonButton(
-                  isLoading: controller.isUploading.value,
-                  text: 'Upload Music',
+                  isLoading: controller.isUpdating.value,
+                  text: 'Update Music',
                   backgroundColor: blackColor,
                   textColor: whiteColor,
                   onPressed: () {
-                    controller.addUserMusic();
+                    controller.updateUserMusic(
+                      musicId,
+                      controller.titleUpdateController.text,
+                      controller.artistUpdateController.text,
+                    );
                   },
                 ),
               ),

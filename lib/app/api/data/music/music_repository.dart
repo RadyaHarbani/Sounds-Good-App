@@ -24,19 +24,6 @@ class MusicRepository {
     return box.values.toList();
   }
 
-  // Future<MusicModel> createMusic(CreateMusicRequest req) async {
-  //   final data = await _service.createMusic(req);
-  //   return MusicModel.fromJson(data);
-  // }
-
-  // Future<MusicModel> updateMusic(String id, UpdateMusicRequest req) async {
-  //   final data = await _service.updateMusic(id, req);
-  //   return MusicModel.fromJson(data);
-  // }
-
-  // Future<void> deleteMusic(String id) async {
-  //   await _service.deleteMusic(id);
-  // }
   Future<List<MusicModel>> fetchMyMusic() async {
     final List<dynamic> response = await _service.fetchMyMusic();
 

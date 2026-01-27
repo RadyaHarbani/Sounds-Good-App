@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sounds_good_app/app/global/global-components/common_alert_dialog.dart';
 import 'package:sounds_good_app/app/global/global-components/common_warning.dart';
 import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 import 'package:sounds_good_app/app/pages/library-page/widgets/bottomsheet_add_music.dart';
+import 'package:sounds_good_app/app/pages/library-page/widgets/bottomsheet_update_music.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 
 class LibraryPageView extends StatelessWidget {
@@ -91,13 +93,22 @@ class LibraryPageView extends StatelessWidget {
                               return Slidable(
                                 key: ValueKey(music.id),
                                 endActionPane: ActionPane(
-                                  motion:
-                                      const StretchMotion(), // smooth & modern
-                                  extentRatio: 0.4, // lebar area menu
+                                  motion: const StretchMotion(),
+                                  extentRatio: 0.4,
                                   children: [
                                     SlidableAction(
                                       onPressed: (_) {
-                                        // controller.openEditMusic(music);
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: whiteColor,
+                                          builder: (context) =>
+                                              BottomsheetUpdateMusic(
+                                                musicId: music.id,
+                                                title: music.title,
+                                                artist: music.artist,
+                                              ),
+                                        );
                                       },
                                       backgroundColor: orangeColor.withValues(
                                         alpha: 0.1,
@@ -109,7 +120,24 @@ class LibraryPageView extends StatelessWidget {
                                     ),
                                     SlidableAction(
                                       onPressed: (_) {
-                                        // controller.confirmDeleteMusic(music);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CommonAlertDialog(
+                                              title: 'Confirm Deletion',
+                                              content:
+                                                  'Are you sure you want to delete this music from your library?',
+                                              cancelButtonText: 'No',
+                                              confirmButtonText: 'Yes',
+                                              onConfirm: () {
+                                                
+                                                controller.deleteUserMusic(
+                                                  music.id,
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
                                       },
                                       backgroundColor: dangerColor.withValues(
                                         alpha: 0.1,
