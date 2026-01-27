@@ -16,6 +16,8 @@ class AudioController extends GetxController {
   final RxList<MusicModel> playlist = <MusicModel>[].obs;
   final RxInt currentIndex = 0.obs;
 
+  final RxBool hasActiveAudio = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -34,13 +36,23 @@ class AudioController extends GetxController {
       currentArtist.value = song.artist;
       currentThumbnail.value = song.thumbnailUrl;
     });
+
+    player.processingStateStream.listen((state) {
+      if (state == ProcessingState.completed && !player.hasNext) {
+        resetPlayer();
+      }
+    });
   }
 
   Future<void> setPlaylist(List<MusicModel> list, {int startIndex = 0}) async {
-    if (list.isEmpty) return;
+    if (list.isEmpty) {
+      await resetPlayer();
+      return;
+    }
 
     try {
       isLoadingAudio.value = true;
+      hasActiveAudio.value = true;
 
       playlist.assignAll(list);
 
@@ -52,7 +64,6 @@ class AudioController extends GetxController {
 
       await player.stop();
       await player.setAudioSource(audioSource, initialIndex: startIndex);
-
       await player.play();
     } catch (e) {
       debugPrint('SET PLAYLIST ERROR: $e');
@@ -77,6 +88,20 @@ class AudioController extends GetxController {
   Future<void> playPrevious() async {
     if (!player.hasPrevious) return;
     await player.seekToPrevious();
+  }
+
+  Future<void> resetPlayer() async {
+    await player.stop();
+
+    playlist.clear();
+    currentIndex.value = 0;
+
+    currentTitle.value = '';
+    currentArtist.value = '';
+    currentThumbnail.value = '';
+
+    isPlaying.value = false;
+    hasActiveAudio.value = false;
   }
 
   @override

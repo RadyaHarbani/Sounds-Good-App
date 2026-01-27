@@ -8,8 +8,10 @@ import 'package:sounds_good_app/app/api/data/music/create_music_request.dart';
 import 'package:sounds_good_app/app/api/data/music/music_model.dart';
 import 'package:sounds_good_app/app/api/data/music/music_repository.dart';
 import 'package:sounds_good_app/app/api/data/music/update_music_request.dart';
+import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 
 class LibraryPageController extends GetxController {
+  final AudioController audioController = Get.find<AudioController>();
   final MusicRepository _musicRepo = MusicRepository();
 
   final userMusics = <MusicModel>[].obs;
@@ -135,13 +137,27 @@ class LibraryPageController extends GetxController {
 
   Future<void> deleteUserMusic(String musicId) async {
     try {
+      final deletedIndex = userMusics.indexWhere(
+        (music) => music.id == musicId,
+      );
+
       await _musicRepo.deleteMusic(musicId);
-      userMusics.removeWhere((music) => music.id == musicId);
-      fetchUserMusic();
-      Get.snackbar('Success', 'Music berhasil dihapus');
+
+      userMusics.removeAt(deletedIndex);
+
+      if (userMusics.isEmpty) {
+        await audioController.resetPlayer();
+      } else {
+        await audioController.setPlaylist(
+          userMusics,
+          startIndex: deletedIndex > 0 ? deletedIndex - 1 : 0,
+        );
+      }
+
       Get.back();
+      Get.snackbar('Success', 'Music berhasil dihapus');
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       Get.snackbar('Error', 'Gagal menghapus music');
     }
   }

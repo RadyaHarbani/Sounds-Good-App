@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sounds_good_app/app/global/global-components/music-player/mini_player.dart';
+import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
 import 'package:sounds_good_app/app/pages/home-page/home_page_controller.dart';
 import 'package:sounds_good_app/app/pages/navbar/navbar_main_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
@@ -30,11 +31,15 @@ class NavbarMainView extends GetView<NavbarMainController> {
             bottom: height * 0.01,
             child: Obx(() {
               final homeController = Get.find<HomePageController>();
+              final audioController = Get.find<AudioController>();
+
+              final showMiniPlayer =
+                  !homeController.isDrawerOpen.value &&
+                  audioController.hasActiveAudio.value;
+
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-                child: homeController.isDrawerOpen.value
-                    ? SizedBox()
-                    : MiniPlayer(),
+                child: showMiniPlayer ? MiniPlayer() : const SizedBox.shrink(),
               );
             }),
           ),

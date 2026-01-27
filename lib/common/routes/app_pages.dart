@@ -42,20 +42,5 @@ class AppPages {
       page: () => OnboardingPageView(),
       binding: OnboardingPageBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.HOME_PAGE,
-    //   page: () => HomePageView(),
-    //   binding: HomePageBinding(),
-    // ),
-    // GetPage(
-    //   name: _Paths.SEARCH_PAGE,
-    //   page: () => SearchPageView(),
-    //   binding: SearchPageBinding(),
-    // ),
-    // GetPage(
-    //   name: _Paths.LIBRARY_PAGE,
-    //   page: () => LibraryPageView(),
-    //   binding: LibraryPageBinding(),
-    // ),
   ];
 }

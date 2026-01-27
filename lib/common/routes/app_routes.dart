@@ -7,10 +7,6 @@ abstract class Routes {
   static const LOGIN_PAGE = _Paths.LOGIN_PAGE;
   static const SIGNUP_PAGE = _Paths.SIGNUP_PAGE;
   static const ONBOARDING_PAGE = _Paths.ONBOARDING_PAGE;
-  // static const HOME_PAGE = _Paths.HOME_PAGE;
-  // static const SEARCH_PAGE = _Paths.SEARCH_PAGE;
-  // static const LIBRARY_PAGE = _Paths.LIBRARY_PAGE;
-
 }
 
 abstract class _Paths {
@@ -20,8 +16,5 @@ abstract class _Paths {
   static const LOGIN_PAGE = '/login-page';
   static const SIGNUP_PAGE = '/signup-page';
   static const ONBOARDING_PAGE = '/onboarding-page';
-  // static const HOME_PAGE = '/home-page';
-  // static const SEARCH_PAGE = '/search-page';
-  // static const LIBRARY_PAGE = '/library-page';
 }
 

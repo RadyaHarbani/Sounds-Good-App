@@ -130,7 +130,7 @@ class LibraryPageView extends StatelessWidget {
                                               cancelButtonText: 'No',
                                               confirmButtonText: 'Yes',
                                               onConfirm: () {
-                                                
+                                                Get.back();
                                                 controller.deleteUserMusic(
                                                   music.id,
                                                 );
