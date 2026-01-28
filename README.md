@@ -1,16 +1,23 @@
-# sounds_good_app
+# 🎵 Sounds Good App
 
-A new Flutter project.
+Sounds Good App is a mobile application built with **Flutter**, designed to provide a simple, fast, and user-friendly experience. The application focuses on clean UI design, smooth performance, and reliable API integration.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
+- User authentication (Login & Logout)
+- API integration
+- Responsive and modern UI
+- Optimized performance for Android devices
 
-A few resources to get you started if this is your first Flutter project:
+> Note: Features may continue to evolve as development progresses.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack
+- **Flutter** (Dart)
+- **Android SDK**
+- RESTful API
+- State Management (GetX)
+
+---
