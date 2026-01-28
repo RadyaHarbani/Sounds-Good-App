@@ -12,11 +12,13 @@ class AudioController extends GetxController {
   final RxString currentTitle = ''.obs;
   final RxString currentArtist = ''.obs;
   final RxString currentThumbnail = ''.obs;
+  final RxString currentSongId = ''.obs;
 
   final RxList<MusicModel> playlist = <MusicModel>[].obs;
   final RxInt currentIndex = 0.obs;
 
   final RxBool hasActiveAudio = false.obs;
+  
 
   @override
   void onInit() {
@@ -35,6 +37,7 @@ class AudioController extends GetxController {
       currentTitle.value = song.title;
       currentArtist.value = song.artist;
       currentThumbnail.value = song.thumbnailUrl;
+      currentSongId.value = song.id;
     });
 
     player.processingStateStream.listen((state) {
@@ -103,6 +106,14 @@ class AudioController extends GetxController {
     isPlaying.value = false;
     hasActiveAudio.value = false;
   }
+
+  MusicModel? get currentMusic {
+  if (playlist.isEmpty) return null;
+  if (currentIndex.value < 0 || currentIndex.value >= playlist.length) {
+    return null;
+  }
+  return playlist[currentIndex.value];
+}
 
   @override
   void onClose() {

@@ -22,6 +22,9 @@ class MusicModel extends HiveObject {
   @HiveField(5)
   final String userId;
 
+  @HiveField(6)
+  final DateTime? lastPlayedAt;
+
   MusicModel({
     required this.id,
     required this.title,
@@ -29,36 +32,48 @@ class MusicModel extends HiveObject {
     required this.songUrl,
     required this.thumbnailUrl,
     required this.userId,
+    this.lastPlayedAt,
   });
 
-  factory MusicModel.fromJson(Map<String, dynamic> json) {
-  final rawThumb = json['thumbnail_url'];
-
-  String safeThumbnail = '';
-  if (rawThumb != null &&
-      rawThumb.toString().isNotEmpty &&
-      rawThumb.toString() != 'null') {
-    safeThumbnail = rawThumb.toString();
-
-    if (safeThumbnail.startsWith('http://')) {
-      safeThumbnail = safeThumbnail.replaceFirst('http://', 'https://');
-    }
-
-    if (safeThumbnail.startsWith('/')) {
-      safeThumbnail =
-          'https://res.cloudinary.com/dhu5ttigh$safeThumbnail';
-    }
+  MusicModel copyWith({String? title, String? artist, DateTime? lastPlayedAt,}) {
+    return MusicModel(
+      id: id,
+      title: title ?? this.title,
+      artist: artist ?? this.artist,
+      songUrl: songUrl,
+      thumbnailUrl: thumbnailUrl,
+      userId: userId,
+      lastPlayedAt: lastPlayedAt ?? this.lastPlayedAt,
+    );
   }
 
-  return MusicModel(
-    id: json['id']?.toString() ?? '',
-    title: json['title'] ?? '',
-    artist: json['artist'] ?? '',
-    songUrl: json['song_url'] ?? '',
-    thumbnailUrl: safeThumbnail,
-    userId: json['user_id']?.toString() ?? '',
-  );
-}
+  factory MusicModel.fromJson(Map<String, dynamic> json) {
+    final rawThumb = json['thumbnail_url'];
+
+    String safeThumbnail = '';
+    if (rawThumb != null &&
+        rawThumb.toString().isNotEmpty &&
+        rawThumb.toString() != 'null') {
+      safeThumbnail = rawThumb.toString();
+
+      if (safeThumbnail.startsWith('http://')) {
+        safeThumbnail = safeThumbnail.replaceFirst('http://', 'https://');
+      }
+
+      if (safeThumbnail.startsWith('/')) {
+        safeThumbnail = 'https://res.cloudinary.com/dhu5ttigh$safeThumbnail';
+      }
+    }
+
+    return MusicModel(
+      id: json['id']?.toString() ?? '',
+      title: json['title'] ?? '',
+      artist: json['artist'] ?? '',
+      songUrl: json['song_url'] ?? '',
+      thumbnailUrl: safeThumbnail,
+      userId: json['user_id']?.toString() ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {

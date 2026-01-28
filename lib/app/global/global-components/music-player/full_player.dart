@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
+import 'package:sounds_good_app/app/pages/favorite-page/favorite_page_controller.dart';
 import 'package:sounds_good_app/common/helper/themes.dart';
 
 class FullPlayerPage extends StatelessWidget {
-  final AudioController controller = Get.find<AudioController>();
+  final AudioController audioController = Get.find<AudioController>();
+  final FavoritePageController favoriteController = Get.find<FavoritePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class FullPlayerPage extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  controller.currentThumbnail.value,
+                  "${audioController.currentThumbnail.value}",
                   height: height * 0.35,
                   width: width * 0.8,
                   fit: BoxFit.cover,
@@ -49,7 +51,7 @@ class FullPlayerPage extends StatelessWidget {
               SizedBox(height: height * 0.04),
 
               Text(
-                controller.currentTitle.value,
+                audioController.currentTitle.value,
                 style: tsHeadingSmallBold(context, blackColor),
                 textAlign: TextAlign.center,
                 maxLines: 1,
@@ -57,7 +59,7 @@ class FullPlayerPage extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                controller.currentArtist.value,
+                audioController.currentArtist.value,
                 style: tsBodyMediumRegular(context, greyColor),
                 textAlign: TextAlign.center,
                 maxLines: 1,
@@ -67,10 +69,11 @@ class FullPlayerPage extends StatelessWidget {
               SizedBox(height: height * 0.06),
 
               StreamBuilder<Duration>(
-                stream: controller.player.positionStream,
+                stream: audioController.player.positionStream,
                 builder: (context, snapshot) {
                   final position = snapshot.data ?? Duration.zero;
-                  final duration = controller.player.duration ?? Duration.zero;
+                  final duration =
+                      audioController.player.duration ?? Duration.zero;
 
                   final maxSeconds = duration.inSeconds > 0
                       ? duration.inSeconds
@@ -85,7 +88,7 @@ class FullPlayerPage extends StatelessWidget {
                             .toDouble(),
                         max: maxSeconds.toDouble(),
                         onChanged: (value) {
-                          controller.player.seek(
+                          audioController.player.seek(
                             Duration(seconds: value.toInt()),
                           );
                         },
@@ -120,7 +123,7 @@ class FullPlayerPage extends StatelessWidget {
                     iconSize: 36,
                     color: blackColor,
                     icon: const Icon(Icons.skip_previous),
-                    onPressed: controller.playPrevious,
+                    onPressed: audioController.playPrevious,
                   ),
 
                   SizedBox(width: width * 0.03),
@@ -129,11 +132,11 @@ class FullPlayerPage extends StatelessWidget {
                     iconSize: 72,
                     color: blackColor,
                     icon: Icon(
-                      controller.isPlaying.value
+                      audioController.isPlaying.value
                           ? Icons.pause_circle
                           : Icons.play_circle,
                     ),
-                    onPressed: controller.togglePlay,
+                    onPressed: audioController.togglePlay,
                   ),
 
                   SizedBox(width: width * 0.03),
@@ -142,10 +145,27 @@ class FullPlayerPage extends StatelessWidget {
                     iconSize: 36,
                     color: blackColor,
                     icon: const Icon(Icons.skip_next),
-                    onPressed: controller.playNext,
+                    onPressed: audioController.playNext,
                   ),
                 ],
               ),
+              Obx(() {
+                final music = audioController.currentMusic;
+
+                if (music == null) return const SizedBox();
+
+                final isFav = favoriteController.favoriteIds.contains(music.id);
+
+                return IconButton(
+                  icon: Icon(
+                    isFav ? Icons.favorite : Icons.favorite_border,
+                    color: isFav ? Colors.red : Colors.black,
+                  ),
+                  onPressed: () {
+                    favoriteController.toggleFavorite(music);
+                  },
+                );
+              }),
             ],
           ),
         ),

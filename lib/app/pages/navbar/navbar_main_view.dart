@@ -64,6 +64,13 @@ class NavbarMainView extends GetView<NavbarMainController> {
                 label: 'Search',
               ),
               BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/icons/icLightFavorite.svg'),
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/icFilledFavorite.svg',
+                ),
+                label: 'Favorite',
+              ),
+              BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/icons/icLightLibrary.svg'),
                 activeIcon: SvgPicture.asset(
                   'assets/icons/icFilledLibrary.svg',

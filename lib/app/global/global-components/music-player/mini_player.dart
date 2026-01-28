@@ -29,7 +29,6 @@ class MiniPlayer extends StatelessWidget {
           ),
           child: Row(
             children: [
-              /// 🎵 THUMBNAIL
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
@@ -48,7 +47,6 @@ class MiniPlayer extends StatelessWidget {
 
               SizedBox(width: width * 0.03),
 
-              /// 🎶 TITLE + ARTIST
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

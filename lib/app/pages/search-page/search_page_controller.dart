@@ -14,6 +14,7 @@ class SearchPageController extends GetxController {
   final shownUserMusics = <MusicModel>[].obs;
 
   final isLoading = false.obs;
+  final isSearching = false.obs;
 
   @override
   void onInit() {
@@ -47,6 +48,7 @@ class SearchPageController extends GetxController {
     }
 
     final q = query.toLowerCase();
+    isSearching.value = true;
 
     shownDefaultMusics.assignAll(
       allDefaultMusics.where((music) {

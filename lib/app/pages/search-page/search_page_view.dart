@@ -39,12 +39,24 @@ class SearchPageView extends StatelessWidget {
           padding: EdgeInsets.only(left: width * 0.06, right: width * 0.06),
           child: Column(
             children: [
-              CommonTextField(
-                fieldController: controller.searchController,
-                obscureText: false,
-                hintText: 'Title of the music',
-                keyboardType: TextInputType.name,
-                onChanged: controller.search,
+              Obx(
+                () => CommonTextField(
+                  fieldController: controller.searchController,
+                  obscureText: false,
+                  hintText: 'Title, artist',
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.search,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      controller.searchController.text = '';
+                      controller.isSearching.value = false;
+                      controller.search("");
+                    },
+                    icon: controller.isSearching.value == true
+                        ? Icon(Icons.close_rounded, size: 20)
+                        : SizedBox.shrink(),
+                  ),
+                ),
               ),
               Obx(() {
                 final defaultMusics = controller.shownDefaultMusics;
@@ -56,7 +68,7 @@ class SearchPageView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SvgPicture.asset('assets/images/emptyLibrary.svg'),
+                          SvgPicture.asset('assets/images/emptySearch.svg'),
                           Text(
                             'No music found',
                             style: tsBodyMediumRegular(context, greyColor),
@@ -69,37 +81,11 @@ class SearchPageView extends StatelessWidget {
 
                 return Expanded(
                   child: SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (defaultMusics.isNotEmpty) ...[
-                          SizedBox(height: height * 0.02),
-                          Text(
-                            'DEFAULT MUSIC',
-                            style: tsBodyMediumMedium(context, greyColor),
-                          ),
-                          SizedBox(height: height * 0.02),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: defaultMusics.length,
-                            itemBuilder: (context, index) {
-                              final music = defaultMusics[index];
-                              return MusicItem(
-                                music: music,
-                                width: width,
-                                height: height,
-                                onTap: () {
-                                  audioController.setPlaylist(
-                                    defaultMusics,
-                                    startIndex: index,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ],
-
                         if (userMusics.isNotEmpty) ...[
                           SizedBox(height: height * 0.02),
                           Text(
@@ -120,6 +106,33 @@ class SearchPageView extends StatelessWidget {
                                 onTap: () {
                                   audioController.setPlaylist(
                                     userMusics,
+                                    startIndex: index,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                        if (defaultMusics.isNotEmpty) ...[
+                          SizedBox(height: height * 0.02),
+                          Text(
+                            'DEFAULT MUSIC',
+                            style: tsBodyMediumMedium(context, greyColor),
+                          ),
+                          SizedBox(height: height * 0.02),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: defaultMusics.length,
+                            itemBuilder: (context, index) {
+                              final music = defaultMusics[index];
+                              return MusicItem(
+                                music: music,
+                                width: width,
+                                height: height,
+                                onTap: () {
+                                  audioController.setPlaylist(
+                                    defaultMusics,
                                     startIndex: index,
                                   );
                                 },

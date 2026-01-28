@@ -23,13 +23,14 @@ class MusicModelAdapter extends TypeAdapter<MusicModel> {
       songUrl: fields[3] as String,
       thumbnailUrl: fields[4] as String,
       userId: fields[5] as String,
+      lastPlayedAt: fields[6] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MusicModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class MusicModelAdapter extends TypeAdapter<MusicModel> {
       ..writeByte(4)
       ..write(obj.thumbnailUrl)
       ..writeByte(5)
-      ..write(obj.userId);
+      ..write(obj.userId)
+      ..writeByte(6)
+      ..write(obj.lastPlayedAt);
   }
 
   @override

@@ -36,6 +36,7 @@ class HomePageController extends GetxController {
     isLoadingMusic.value = true;
     try {
       musics.value = await _musicRepo.getAllMusic();
+      print("Fetch Berhasil");
     } catch (_) {
       musics.value = _musicRepo.getCachedMusic();
     }
