@@ -63,7 +63,7 @@ class HomePageView extends StatelessWidget {
                   return SizedBox.shrink();
                 }
                 return Text(
-                  '${controller.user.value!.name}!',
+                  '${controller.user.value!.name}',
                   style: tsHeadingMediumBold(context, blackColor),
                 );
               }),

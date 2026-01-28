@@ -73,6 +73,7 @@ class SearchPageController extends GetxController {
     if (query.isEmpty) {
       shownDefaultMusics.assignAll(allDefaultMusics);
       shownUserMusics.assignAll(allUserMusics);
+      shownFavoriteMusics.assignAll(allFavoriteMusics);
       return;
     }
 
