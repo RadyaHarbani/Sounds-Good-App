@@ -1,12 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:sounds_good_app/app/api/data/music/music_model.dart';
-import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 
 class FavoritePageController extends GetxController {
-  final LibraryPageController libraryController =
-      Get.find<LibraryPageController>();
-
   final RxList<MusicModel> favorites = <MusicModel>[].obs;
   final RxSet<String> favoriteIds = <String>{}.obs;
 
@@ -21,10 +17,6 @@ class FavoritePageController extends GetxController {
 
     favorites.assignAll(favoriteMusicBox.values);
     favoriteIds.addAll(favoriteIdBox.keys.cast<String>());
-
-    ever<List<MusicModel>>(libraryController.userMusics, (list) {
-      favorites.assignAll(list.where((m) => favoriteIds.contains(m.id)));
-    });
   }
 
   bool isFavorite(String id) {
