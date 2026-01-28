@@ -12,6 +12,7 @@ import 'package:sounds_good_app/app/global/global-controllers/audio_controller.d
 
 class LibraryPageController extends GetxController {
   final AudioController audioController = Get.find<AudioController>();
+
   final MusicRepository _musicRepo = MusicRepository();
 
   final userMusics = <MusicModel>[].obs;
@@ -141,17 +142,20 @@ class LibraryPageController extends GetxController {
         (music) => music.id == musicId,
       );
 
-      await _musicRepo.deleteMusic(musicId);
+      final isCurrentlyPlaying = audioController.currentMusic?.id == musicId;
 
+      await _musicRepo.deleteMusic(musicId);
       userMusics.removeAt(deletedIndex);
 
-      if (userMusics.isEmpty) {
-        await audioController.resetPlayer();
-      } else {
-        await audioController.setPlaylist(
-          userMusics,
-          startIndex: deletedIndex > 0 ? deletedIndex - 1 : 0,
-        );
+      if (isCurrentlyPlaying) {
+        if (userMusics.isEmpty) {
+          await audioController.resetPlayer();
+        } else {
+          await audioController.setPlaylist(
+            userMusics,
+            startIndex: deletedIndex > 0 ? deletedIndex - 1 : 0,
+          );
+        }
       }
 
       Get.back();
@@ -167,7 +171,7 @@ class LibraryPageController extends GetxController {
     String title,
     String artist,
   ) async {
-    isLoadingUserMusic.value = true;
+    isUpdating.value = true;
     try {
       await _musicRepo.updateMusic(
         musicId,
@@ -175,15 +179,13 @@ class LibraryPageController extends GetxController {
       );
       fetchUserMusic();
       Get.back();
-      isLoadingUserMusic.value = false;
       Get.snackbar('Success', 'Music berhasil diperbarui');
       clearForm();
     } catch (e) {
       print(e);
-      isLoadingUserMusic.value = false;
       Get.snackbar('Error', 'Gagal memperbarui music');
     } finally {
-      isLoadingUserMusic.value = false;
+      isUpdating.value = false;
     }
   }
 

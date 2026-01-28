@@ -17,6 +17,7 @@ void main() async {
   await Hive.openBox<MusicModel>('myMusicBox');
   await Hive.openBox('favoriteBox');
   await Hive.openBox<MusicModel>('favoriteMusicBox');
+  await Hive.openBox<MusicModel>('recentlyPlayedBox');
 
   runApp(
     GetMaterialApp(

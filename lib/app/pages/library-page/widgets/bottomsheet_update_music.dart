@@ -22,8 +22,6 @@ class BottomsheetUpdateMusic extends StatelessWidget {
     final Size mediaQuery = MediaQuery.of(context).size;
     final double width = mediaQuery.width;
     final double height = mediaQuery.height;
-    controller.titleUpdateController.text = title;
-    controller.artistUpdateController.text = artist;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -138,8 +136,12 @@ class BottomsheetUpdateMusic extends StatelessWidget {
                   onPressed: () {
                     controller.updateUserMusic(
                       musicId,
-                      controller.titleUpdateController.text,
-                      controller.artistUpdateController.text,
+                      controller.titleUpdateController.text == ''
+                          ? title
+                          : controller.titleUpdateController.text,
+                      controller.artistUpdateController.text == ''
+                          ? artist
+                          : controller.artistUpdateController.text,
                     );
                   },
                 ),

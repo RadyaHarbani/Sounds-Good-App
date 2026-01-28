@@ -6,7 +6,8 @@ import 'package:sounds_good_app/common/helper/themes.dart';
 
 class FullPlayerPage extends StatelessWidget {
   final AudioController audioController = Get.find<AudioController>();
-  final FavoritePageController favoriteController = Get.find<FavoritePageController>();
+  final FavoritePageController favoriteController =
+      Get.find<FavoritePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +51,53 @@ class FullPlayerPage extends StatelessWidget {
 
               SizedBox(height: height * 0.04),
 
-              Text(
-                audioController.currentTitle.value,
-                style: tsHeadingSmallBold(context, blackColor),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                audioController.currentArtist.value,
-                style: tsBodyMediumRegular(context, greyColor),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          audioController.currentTitle.value,
+                          style: tsHeadingSmallBold(context, blackColor),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: height * 0.005),
+                        Text(
+                          audioController.currentArtist.value,
+                          style: tsBodyMediumRegular(context, greyColor),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    Obx(() {
+                      final music = audioController.currentMusic;
+
+                      if (music == null) return const SizedBox();
+
+                      final isFav = favoriteController.favoriteIds.contains(
+                        music.id,
+                      );
+
+                      return IconButton(
+                        icon: Icon(
+                          size: 30,
+                          isFav ? Icons.favorite : Icons.favorite_border,
+                          color: isFav ? Colors.red : Colors.black,
+                        ),
+                        onPressed: () {
+                          favoriteController.toggleFavorite(music);
+                        },
+                      );
+                    }),
+                  ],
+                ),
               ),
 
               SizedBox(height: height * 0.06),
@@ -149,23 +183,6 @@ class FullPlayerPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Obx(() {
-                final music = audioController.currentMusic;
-
-                if (music == null) return const SizedBox();
-
-                final isFav = favoriteController.favoriteIds.contains(music.id);
-
-                return IconButton(
-                  icon: Icon(
-                    isFav ? Icons.favorite : Icons.favorite_border,
-                    color: isFav ? Colors.red : Colors.black,
-                  ),
-                  onPressed: () {
-                    favoriteController.toggleFavorite(music);
-                  },
-                );
-              }),
             ],
           ),
         ),

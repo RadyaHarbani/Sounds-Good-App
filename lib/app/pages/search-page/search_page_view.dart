@@ -61,6 +61,7 @@ class SearchPageView extends StatelessWidget {
               Obx(() {
                 final defaultMusics = controller.shownDefaultMusics;
                 final userMusics = controller.shownUserMusics;
+                final favoriteMusics = controller.shownFavoriteMusics;
 
                 if (defaultMusics.isEmpty && userMusics.isEmpty) {
                   return Expanded(
@@ -113,6 +114,34 @@ class SearchPageView extends StatelessWidget {
                             },
                           ),
                         ],
+                        if (favoriteMusics.isNotEmpty) ...[
+                          SizedBox(height: height * 0.02),
+                          Text(
+                            'YOUR FAVORITE',
+                            style: tsBodyMediumMedium(context, greyColor),
+                          ),
+                          SizedBox(height: height * 0.02),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: favoriteMusics.length,
+                            itemBuilder: (context, index) {
+                              final music = favoriteMusics[index];
+                              return MusicItem(
+                                music: music,
+                                width: width,
+                                height: height,
+                                onTap: () {
+                                  audioController.setPlaylist(
+                                    favoriteMusics,
+                                    startIndex: index,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+
                         if (defaultMusics.isNotEmpty) ...[
                           SizedBox(height: height * 0.02),
                           Text(

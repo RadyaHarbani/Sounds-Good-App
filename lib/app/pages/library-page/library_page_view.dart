@@ -44,13 +44,14 @@ class LibraryPageView extends StatelessWidget {
               padding: EdgeInsets.only(right: width * 0.06),
               child: IconButton(
                 icon: Icon(Icons.add, color: blackColor, size: 30),
-                onPressed: () {
+                onPressed: () async {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
                     backgroundColor: whiteColor,
                     builder: (context) => BottomsheetAddMusic(),
                   );
+                  controller.clearForm();
                 },
               ),
             ),
@@ -97,7 +98,7 @@ class LibraryPageView extends StatelessWidget {
                                   extentRatio: 0.4,
                                   children: [
                                     SlidableAction(
-                                      onPressed: (_) {
+                                      onPressed: (_) async {
                                         showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
@@ -109,6 +110,7 @@ class LibraryPageView extends StatelessWidget {
                                                 artist: music.artist,
                                               ),
                                         );
+                                        controller.clearForm();
                                       },
                                       backgroundColor: orangeColor.withValues(
                                         alpha: 0.1,

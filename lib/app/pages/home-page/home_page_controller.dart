@@ -6,9 +6,14 @@ import 'package:sounds_good_app/app/api/data/music/music_repository.dart';
 import 'package:sounds_good_app/app/api/data/user/user_model.dart';
 import 'package:sounds_good_app/app/api/data/user/user_repository.dart';
 import 'package:sounds_good_app/app/global/global-controllers/audio_controller.dart';
+import 'package:sounds_good_app/app/pages/favorite-page/favorite_page_controller.dart';
+import 'package:sounds_good_app/app/pages/library-page/library_page_controller.dart';
 import 'package:sounds_good_app/common/routes/app_pages.dart';
 
 class HomePageController extends GetxController {
+  final LibraryPageController libraryController =
+      Get.find<LibraryPageController>();
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final UserRepository _userRepo = UserRepository();
@@ -36,7 +41,6 @@ class HomePageController extends GetxController {
     isLoadingMusic.value = true;
     try {
       musics.value = await _musicRepo.getAllMusic();
-      print("Fetch Berhasil");
     } catch (_) {
       musics.value = _musicRepo.getCachedMusic();
     }
@@ -52,6 +56,8 @@ class HomePageController extends GetxController {
       audio.player.dispose();
       Get.delete<AudioController>(force: true);
     }
+
+    Get.find<FavoritePageController>().clear();
 
     final authBox = Hive.box('authBox');
     await authBox.clear();

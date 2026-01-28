@@ -18,7 +18,6 @@ class AudioController extends GetxController {
   final RxInt currentIndex = 0.obs;
 
   final RxBool hasActiveAudio = false.obs;
-  
 
   @override
   void onInit() {
@@ -108,12 +107,12 @@ class AudioController extends GetxController {
   }
 
   MusicModel? get currentMusic {
-  if (playlist.isEmpty) return null;
-  if (currentIndex.value < 0 || currentIndex.value >= playlist.length) {
-    return null;
+    if (playlist.isEmpty) return null;
+    if (currentIndex.value < 0 || currentIndex.value >= playlist.length) {
+      return null;
+    }
+    return playlist[currentIndex.value];
   }
-  return playlist[currentIndex.value];
-}
 
   @override
   void onClose() {

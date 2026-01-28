@@ -9,6 +9,7 @@ import 'package:sounds_good_app/app/pages/search-page/search_page_controller.dar
 class NavbarMainBinding extends Bindings {
   @override
   void dependencies() {
+    // Get.put(RecentlyPlayedController(), permanent: true);
     Get.put(AudioController(), permanent: true);
 
     Get.lazyPut<NavbarMainController>(
